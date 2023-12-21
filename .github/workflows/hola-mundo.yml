@@ -1,10 +1,20 @@
 name: hola mundo
+run-name: ¡Aprendiendo github actions!
 on: [push]
 jobs:
+  # un nombre generico
   hola-mundo:
+    # puede ser ubuntu mac o windows
     runs-on: ubuntu-latest
+
     steps:
+      # identifica el step
       - name: checkout
+        #   indica el action a usar
         uses: actions/checkout@v3
+      - name: Definir variable
+        # setea una variable de entorno en el contexto de github
+        run: echo "USERNAME=${{ github.actor }}" >> $GITHUB_ENV
       - name: hello world
+        #   run para correr un comando en el runner
         run: node index.js
