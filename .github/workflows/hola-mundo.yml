@@ -1,0 +1,10 @@
+name: hola mundo
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: hello world
+        run: node index.js
