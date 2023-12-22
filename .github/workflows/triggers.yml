@@ -1,0 +1,49 @@
+name: trigger
+run-name: ¡Aprendiendo a usar los triggers!
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: ["opened", "synchronize", reopened]
+    paths:
+      - "**.js"
+  issues:
+    types:
+      - labeled
+  workflow_dispatch:
+    inputs:
+      lenguaje_favorito:
+        description: "Lenguaje favorito"
+        default: "javascript"
+        required: true
+        type: choice
+        options:
+          - Python
+          - Java
+          - JavaScript
+      nombre:
+        description: "Tu nombre"
+        default: "Danniel"
+        required: true
+        type: string
+  schedule:
+    - cron: "15 22 * * *"
+jobs:
+  hola-mundo-manual:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        run: actions/checkout@v3
+      - name: Correr script
+        run: node index.js
+  hola-mundo:
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Definir variable
+        run: echo "USERNAME=${{ github.actor }}" >> $GITHUB_ENV
+      - name: Correr script
+        run: node index.js
